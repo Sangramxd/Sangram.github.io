@@ -1,0 +1,19 @@
+body { font-family: Arial; margin: 2rem; background: #f9f9f9; color: #333; }
+nav a { margin-right: 10px; text-decoration: none; color: blue; }
+h2 { color: #002d62; }
+.blurred-bg {
+  background: url('assets/images/profile.jpg') no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(6px);
+  color: white;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 1rem auto;
+  display: block;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
