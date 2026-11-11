@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Experience" description="Professional and research experience of Sangram Kumar Sahoo.">
+  <section class="section wrap">
+    <p class="eyebrow">Experience</p>
+    <h1>Where I've worked</h1>
+  </section>
+
+  <section class="section wrap timeline">
+    {experience.map((job) => (
+      <article class="panel entry">
+        <div class="meta-row">
+          <span>{job.data.start} — {job.data.end}</span>
+          {job.data.advisor && <span>{job.data.advisor}</span>}
+          {job.data.sponsor && <span>Sponsor: {job.data.sponsor}</span>}
+        </div>
+        <h2>{job.data.org}</h2>
+        <p class="role">{job.data.role}</p>
+        <ul>
+          {job.data.bullets.map((b: string) => <li>{b}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .timeline { display: flex; flex-direction: column; gap: 1.1rem; }
+  .entry h2 { margin-bottom: 0.2rem; }
+  .role { color: var(--accent); font-family: var(--font-data); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.8rem; }
+</style>

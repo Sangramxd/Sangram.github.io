@@ -1,0 +1,14 @@
+{
+  "org": "FORGE Lab, Carnegie Mellon University",
+  "role": "Graduate Research Assistant",
+  "advisor": "Prof. Francis Ogoke",
+  "start": "Jan 2026",
+  "end": "Present",
+  "order": 1,
+  "bullets": [
+    "Built a modular PyTorch package — CLI train/eval/visualize entry points, seeded reproducible configs, Weights & Biases tracking — for neural-implicit surrogate models of 3D physical fields in metal additive manufacturing, trained on a 464-geometry simulation dataset (~39 timesteps × 8,192-point clouds).",
+    "Found and fixed a silent data-pipeline defect (stale cached coordinates against a per-frame-resampled point cloud) that had been driving R² to −1.1 with no error signal, then corrected the masked-loss evaluation protocol; reached R² ≈ 0.83 on in-horizon field reconstruction.",
+    "Isolated the remaining failure mode to latent-code drift (‖z_pred‖/‖z_gt‖ ≈ 2.3) through controlled single-variable experiments, separating an extrapolation problem from a capacity problem.",
+    "Extended the study across temperature, displacement, and stress fields, roughly halving validation error and identifying a hyperparameter setting consistent across all three; integrated results into the lab's benchmarking framework against Transolver, FNO, and GNOT."
+  ]
+}

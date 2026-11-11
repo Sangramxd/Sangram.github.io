@@ -1,0 +1,285 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+import { getCollection } from "astro:content";
+
+const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+const current = experience.filter((e) => e.data.end === "Present");
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured);
+
+const publications = (await getCollection("publications")).sort((a, b) => a.data.order - b.data.order);
+
+const projectIcons = [
+  { slug: "language-guided-manipulation", mono: "LG", color: "var(--c-robotics)", top: "9%", left: "10%" },
+  { slug: "weld-inspection", mono: "WI", color: "var(--c-manufacturing)", top: "14%", left: "60%" },
+  { slug: "rag-pharmacovigilance", mono: "RA", color: "var(--c-llm)", top: "7%", left: "81%" },
+  { slug: "deep-rl-suite", mono: "RL", color: "var(--c-rl)", top: "36%", left: "22%" },
+]
+  .map((icon) => {
+    const project = featured.find((p) => p.id === icon.slug);
+    return project ? { ...icon, label: project.data.title, href: "/work-showcase/" } : null;
+  })
+  .filter(Boolean);
+
+const shortcutIcons = [
+  { label: "About", mono: "AB", color: "var(--c-cloud)", href: "/about/", top: "38%", left: "72%" },
+  { label: "All_Projects", mono: "PR", color: "var(--c-robotics)", href: "/projects/", top: "20%", left: "40%" },
+  { label: "Publications", mono: "PB", color: "var(--c-research)", href: "/publications/", top: "50%", left: "48%" },
+  { label: "Contact", mono: "CT", color: "var(--accent)", href: "/contact/", top: "45%", left: "87%" },
+];
+
+const desktopIcons = [...projectIcons, ...shortcutIcons];
+---
+
+<BaseLayout title="Home">
+<section class="desktop-hero">
+  <img class="desktop-bg" src="/images/hero-trail.jpg" alt="Looking out over Half Dome and the Yosemite high country" />
+  <div class="desktop-scrim" aria-hidden="true"></div>
+  <p class="desktop-caption">Olmsted Point, Yosemite — mapping terrain is a hobby, not just a research topic</p>
+
+  <div class="desktop-icons">
+    {desktopIcons.map((icon) => (
+      <a class="dicon" href={icon!.href} style={`--c: ${icon!.color}; top: ${icon!.top}; left: ${icon!.left};`}>
+        <span class="dicon-glyph">{icon!.mono}</span>
+        <span class="dicon-label">{icon!.label}</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="desktop-text">
+    <p class="eyebrow">Carnegie Mellon · M.S. Mechanical Engineering (Research)</p>
+    <h1>{profile.name}</h1>
+    <p class="tagline">
+      Graduate researcher building learning systems across
+      <span class="hl" data-tag="robotics">robotics</span>,
+      <span class="hl" data-tag="computer-vision">vision</span>, and
+      <span class="hl" data-tag="llm-agents">LLM agents</span>
+    </p>
+    <div class="cta-row">
+      <a class="btn is-accent" href="/work-showcase/">View showcase</a>
+      <a class="btn" href="/projects/">All projects</a>
+      <a class="btn" href="/contact/">Contact</a>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <p>{profile.summary}</p>
+</section>
+
+  <section class="section wrap">
+    <p class="eyebrow">Currently</p>
+    <div class="grid-auto">
+      {current.map((job) => (
+        <div class="panel">
+          <div class="meta-row"><span>{job.data.start} — {job.data.end}</span></div>
+          <h3>{job.data.org}</h3>
+          <p class="role">{job.data.role}{job.data.advisor ? ` · ${job.data.advisor}` : ""}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <p class="eyebrow">Featured work</p>
+      <a class="see-all" href="/work-showcase/">See showcase →</a>
+    </div>
+    <div class="grid-auto">
+      {featured.slice(0, 4).map((p) => (
+        <div class="panel">
+          <div class="meta-row"><span>{p.data.date}</span></div>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.summary}</p>
+          <div class="tag-row">
+            {p.data.tags.map((t: string) => <span class="tag" data-tag={t}>{t}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="section-head">
+      <p class="eyebrow">Publications</p>
+      <a class="see-all" href="/publications/">See all →</a>
+    </div>
+    <ul class="pub-list">
+      {publications.map((pub) => (
+        <li>
+          <span class="pub-authors">{pub.data.authors}.</span> “{pub.data.title}.” <span class="pub-venue">{pub.data.venue}</span>, {pub.data.date}.
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .desktop-hero {
+    position: relative;
+    min-height: 88vh;
+    margin: 0 0 1px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .desktop-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+    z-index: -2;
+  }
+  .desktop-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgba(10, 12, 10, 0.32) 0%, rgba(10, 12, 10, 0.05) 28%, rgba(10, 12, 10, 0.12) 55%, rgba(8, 10, 8, 0.82) 100%);
+  }
+  .desktop-caption {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.3rem;
+    max-width: 26ch;
+    text-align: right;
+    font-family: var(--font-data);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.78);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    margin: 0;
+  }
+
+  .desktop-icons {
+    position: absolute;
+    inset: 0;
+  }
+  .dicon {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 72px;
+    text-decoration: none;
+    transform: translate(-50%, 0);
+    padding: 0.4rem;
+    border-radius: 8px;
+  }
+  .dicon:hover, .dicon:focus-visible { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(2px); }
+  .dicon-glyph {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--c) 55%, rgba(20, 22, 18, 0.65));
+    border: 1px solid color-mix(in srgb, var(--c) 80%, transparent);
+    color: #fff;
+    font-family: var(--font-data);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.5);
+  }
+  .dicon-label {
+    font-family: var(--font-data);
+    font-size: 0.64rem;
+    letter-spacing: 0.01em;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .desktop-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 1.5rem 2.6rem;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .desktop-text .eyebrow { color: rgba(255, 255, 255, 0.65); }
+  .desktop-text .eyebrow::before { background: var(--accent); }
+  .desktop-text h1 { color: #fff; margin-bottom: 0.4em; }
+  .tagline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 52ch;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+  .tagline .hl { font-weight: 700; }
+  .tagline .hl[data-tag="robotics"] { color: var(--c-robotics); }
+  .tagline .hl[data-tag="computer-vision"] { color: var(--c-vision); }
+  .tagline .hl[data-tag="llm-agents"] { color: var(--c-llm); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.2rem; }
+
+  @media (max-width: 760px) {
+    .desktop-hero { min-height: auto; display: flex; flex-direction: column; }
+    .desktop-bg { position: static; height: 42vh; z-index: auto; }
+    .desktop-scrim { display: none; }
+    .desktop-caption { display: none; }
+    .desktop-icons {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--paper-raised);
+      border-bottom: 1px solid var(--line);
+    }
+    .dicon { position: static !important; transform: none; width: 64px; }
+    .dicon-label { color: var(--ink-soft); text-shadow: none; }
+    .dicon:hover { background: var(--accent-soft); }
+    .desktop-text {
+      position: static;
+      padding: 1.6rem 1.1rem 1.8rem;
+      background: var(--paper);
+    }
+    .desktop-text .eyebrow { color: var(--ink-faint); }
+    .desktop-text h1 { color: var(--ink); }
+    .tagline { color: var(--ink-soft); text-shadow: none; }
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .see-all {
+    font-family: var(--font-data);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    margin-bottom: 0.9rem;
+  }
+  .see-all:hover { color: var(--accent); }
+
+  .role { color: var(--ink-soft); font-size: 0.95rem; }
+
+  .pub-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem; }
+  .pub-authors { color: var(--ink-soft); }
+  .pub-venue { font-style: italic; }
+
+  @media (max-width: 720px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-photo { width: 140px; }
+  }
+</style>

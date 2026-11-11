@@ -1,0 +1,140 @@
+---
+// Fixed, site-wide ambient layer: a monospace grid of point-cloud-style
+// glyphs that light up near the cursor, like a LiDAR/sensor return sweep —
+// a nod to the SLAM and point-cloud work this site is about.
+---
+<canvas id="ascii-field" aria-hidden="true"></canvas>
+
+<script is:inline>
+  (function () {
+    var canvas = document.getElementById("ascii-field");
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext("2d");
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var CELL = 28;
+    var RADIUS = 170;
+    var HOT_GLYPHS = ["+", "×", "0", "1", "Δ"];
+    var WARM_GLYPH = "•";
+    var COLD_GLYPH = "·";
+
+    var cols = 0, rows = 0, cells = [];
+    var mouseX = -9999, mouseY = -9999;
+    var trail = []; // short comet-tail of recent pointer positions
+    var rafPending = false;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function colors() {
+      var s = getComputedStyle(document.documentElement);
+      return {
+        line: s.getPropertyValue("--line-rgb").trim() || "120,120,120",
+        accent: s.getPropertyValue("--accent-rgb").trim() || "194,84,26",
+      };
+    }
+    var palette = colors();
+
+    function buildGrid() {
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = "11px var(--font-data), monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      cols = Math.ceil(w / CELL) + 1;
+      rows = Math.ceil(h / CELL) + 1;
+      cells = new Array(cols * rows);
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var hot = Math.random() < 0.06;
+          cells[r * cols + c] = {
+            x: c * CELL,
+            y: r * CELL,
+            base: hot ? 0.28 : 0.06 + Math.random() * 0.08,
+            glyph: hot ? WARM_GLYPH : COLD_GLYPH,
+          };
+        }
+      }
+    }
+
+    function draw() {
+      rafPending = false;
+      var w = window.innerWidth, h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        var intensity = 0;
+
+        for (var t = 0; t < trail.length; t++) {
+          var p = trail[t];
+          var dx = cell.x - p.x, dy = cell.y - p.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < RADIUS) {
+            var v = (1 - dist / RADIUS) * p.weight;
+            if (v > intensity) intensity = v;
+          }
+        }
+
+        var alpha = Math.min(1, cell.base + intensity * 0.95);
+        var glyph = cell.glyph;
+        if (intensity > 0.55) {
+          glyph = HOT_GLYPHS[(i + trail.length) % HOT_GLYPHS.length];
+        } else if (intensity > 0.18) {
+          glyph = WARM_GLYPH;
+        }
+
+        var rgb = intensity > 0.12 ? palette.accent : palette.line;
+        ctx.fillStyle = "rgba(" + rgb + "," + alpha.toFixed(3) + ")";
+        ctx.fillText(glyph, cell.x, cell.y);
+      }
+    }
+
+    function scheduleDraw() {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(draw);
+      }
+    }
+
+    function onMove(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      trail.unshift({ x: mouseX, y: mouseY, weight: 1 });
+      if (trail.length > 5) trail.length = 5;
+      for (var i = 0; i < trail.length; i++) trail[i].weight = 1 - i / 5;
+      scheduleDraw();
+    }
+
+    var resizeTimer;
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        buildGrid();
+        scheduleDraw();
+      }, 150);
+    }
+
+    buildGrid();
+    scheduleDraw();
+
+    if (!reduceMotion) {
+      window.addEventListener("mousemove", onMove, { passive: true });
+    }
+    window.addEventListener("resize", onResize);
+    window.addEventListener("themechange", function () {
+      palette = colors();
+      scheduleDraw();
+    });
+  })();
+</script>
+
+<style>
+  #ascii-field {
+    display: block;
+  }
+</style>

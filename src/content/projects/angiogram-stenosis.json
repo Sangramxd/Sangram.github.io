@@ -1,0 +1,12 @@
+{
+  "title": "Angiogram Stenosis Detection Using Computer Vision",
+  "date": "Dec 2025",
+  "tags": ["computer-vision"],
+  "featured": false,
+  "order": 8,
+  "summary": "A computer-vision pipeline for coronary angiogram analysis that quantifies blockage severity from extracted vessel structure.",
+  "bullets": [
+    "Built a computer vision pipeline for coronary angiogram analysis — vessel enhancement, artery structure extraction, stenosis detection — computing percentage diameter stenosis (%DS) to support objective assessment of blockage severity.",
+    "Validated outputs through visual inspection and quantitative comparison of segmented vessels against detected narrowing regions."
+  ]
+}

@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured);
+---
+
+<BaseLayout title="Work Showcase" description="A curated selection of Sangram Kumar Sahoo's most substantial projects.">
+  <section class="section wrap">
+    <p class="eyebrow">Showcase</p>
+    <h1>Selected work</h1>
+    <p>A shorter list — the projects with the most depth, pulled out of the full <a href="/projects/">project list</a>.</p>
+  </section>
+
+  <section class="section wrap showcase-list">
+    {featured.map((p, i) => (
+      <article class="panel showcase-entry">
+        <div class="meta-row">
+          <span>{String(i + 1).padStart(2, "0")} / {String(featured.length).padStart(2, "0")}</span>
+          <span>{p.data.date}</span>
+          {p.data.org && <span>{p.data.org}</span>}
+        </div>
+        <h2>{p.data.title}</h2>
+        <p class="summary">{p.data.summary}</p>
+        <ul>
+          {p.data.bullets.map((b: string) => <li>{b}</li>)}
+        </ul>
+        <div class="tag-row">
+          {p.data.tags.map((t: string) => <span class="tag is-solid" data-tag={t}>{t}</span>)}
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .showcase-list { display: flex; flex-direction: column; gap: 1.3rem; }
+  .showcase-entry h2 { font-size: 1.3rem; }
+  .summary { color: var(--ink-soft); font-size: 1rem; }
+</style>

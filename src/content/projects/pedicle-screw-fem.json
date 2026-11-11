@@ -1,0 +1,11 @@
+{
+  "title": "Finite Element Study of Pedicle Screw Fixation for the Lumbar Spine",
+  "date": "Jan – May 2023",
+  "tags": ["manufacturing", "research"],
+  "featured": false,
+  "order": 10,
+  "summary": "A finite-element model of spinal screw fixation studying how screw size and material affect stress distribution under load.",
+  "bullets": [
+    "Developed a finite-element model of pedicle screw fixation, parameterizing screw size and material to study stress distribution across vertebrae under varying applied loads."
+  ]
+}

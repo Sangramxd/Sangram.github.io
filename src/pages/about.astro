@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout title="About" description={`About ${profile.name}.`}>
+  <section class="section wrap">
+    <p class="eyebrow">About</p>
+    <h1>About me</h1>
+    <p>{profile.summary}</p>
+  </section>
+
+  <section class="section wrap">
+    <p class="eyebrow">Education</p>
+    <div class="grid-auto">
+      {profile.education.map((ed) => (
+        <div class="panel">
+          <div class="meta-row"><span>{ed.date}</span><span>GPA {ed.gpa}</span></div>
+          <h3>{ed.school}</h3>
+          <p>{ed.degree}</p>
+        </div>
+      ))}
+    </div>
+    <p class="coursework"><strong>Relevant coursework:</strong> {profile.coursework.join(" · ")}</p>
+  </section>
+
+  <section class="section wrap">
+    <p class="eyebrow">Leadership & service</p>
+    <div class="grid-auto">
+      {profile.leadership.map((l) => (
+        <div class="panel">
+          <div class="meta-row"><span>{l.date}</span></div>
+          <h3>{l.org}</h3>
+          <p class="role">{l.role}</p>
+          <p>{l.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <p class="eyebrow">Awards & support</p>
+    <ul>
+      {profile.awards.map((a) => <li>{a}</li>)}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .coursework { margin-top: 1rem; color: var(--ink-soft); font-size: 0.95rem; }
+  .role { color: var(--ink-soft); font-size: 0.95rem; }
+</style>

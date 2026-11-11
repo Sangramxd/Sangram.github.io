@@ -1,0 +1,12 @@
+{
+  "title": "RL-Based Neural Architecture Search for Deepfake Voice Detection",
+  "date": "May 2025",
+  "tags": ["reinforcement-learning", "computer-vision"],
+  "featured": false,
+  "order": 7,
+  "summary": "An audio classification pipeline paired with a proof-of-concept RL-based neural architecture search over network topologies.",
+  "bullets": [
+    "Built an end-to-end PyTorch pipeline for spoofed-versus-genuine speech classification spanning audio preprocessing, feature extraction, model training, and evaluation; reached 2.8% Equal Error Rate after 50 epochs with baseline deep models.",
+    "Developed a proof-of-concept reinforcement-learning Neural Architecture Search framework to search network topologies for the audio classification task."
+  ]
+}

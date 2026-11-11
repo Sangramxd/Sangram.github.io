@@ -1,0 +1,13 @@
+{
+  "title": "Robotic Multimodal Weld Inspection Using Vision–Tactile Sensing",
+  "date": "2026",
+  "org": "Manufacturing Futures Institute, CMU",
+  "tags": ["robotics", "computer-vision", "manufacturing"],
+  "featured": true,
+  "order": 2,
+  "summary": "A robot-arm inspection platform that fuses tactile depth and RGB-D imaging to automatically scan and flag weld defects.",
+  "bullets": [
+    "Developed a robotic weld-inspection platform integrating a robot arm, GelSight Mini tactile sensor, and Intel RealSense D555, automating force-controlled 10×10 surface scans at 4 N contact.",
+    "Built the end-to-end ROS2 pipeline for coordinate mapping, GelSight depth reconstruction, image alignment, multimodal stitching, and defect annotation, producing a 3,600-sample vision–tactile dataset."
+  ]
+}

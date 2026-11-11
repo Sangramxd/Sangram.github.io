@@ -1,0 +1,11 @@
+{
+  "title": "Retrieval-Augmented Generation Pipeline for Pharmacovigilance Data",
+  "date": "May 2026",
+  "tags": ["llm-agents", "cloud"],
+  "featured": true,
+  "order": 4,
+  "summary": "A custom RAG pipeline for natural-language querying over adverse-event case narratives, built on Google Cloud with full control over the retrieval stack.",
+  "bullets": [
+    "Designed and deployed a custom RAG pipeline on Google Cloud (BigQuery, Vertex AI, Cloud Run) for natural-language querying over adverse-event case narratives, built without managed search products to retain control over chunking, embedding, and ranking."
+  ]
+}

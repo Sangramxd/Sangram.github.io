@@ -1,0 +1,13 @@
+{
+  "org": "Computational Engineering & Robotics Lab (CERLAB), Carnegie Mellon University",
+  "role": "Graduate Researcher",
+  "advisor": "Prof. Kenji Shimada",
+  "sponsor": "Komatsu Ltd.",
+  "start": "Aug 2024",
+  "end": "May 2025",
+  "order": 3,
+  "bullets": [
+    "Built an NVIDIA Isaac Sim environment serving as a SLAM test bed for mining operations, modelling hauling and loading cycles for an autonomous wheel loader.",
+    "Simulated and compared multiple LiDAR configurations and camera placements to support perception and SLAM algorithm development for off-highway equipment."
+  ]
+}

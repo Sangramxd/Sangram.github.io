@@ -1,0 +1,11 @@
+{
+  "title": "Bio-Inspired Soft Robotic System for Underwater Water-Quality Monitoring",
+  "date": "Aug – Dec 2024",
+  "tags": ["robotics"],
+  "featured": false,
+  "order": 9,
+  "summary": "A soft robotic device for water-quality monitoring, studying how body compliance and sensor placement affect maneuverability and accuracy.",
+  "bullets": [
+    "Developed a bio-inspired soft robotic device for water-quality monitoring and dissolved-hydrogen detection, studying how soft-body structure affects maneuverability and how sensor placement affects accuracy in dynamic water conditions."
+  ]
+}

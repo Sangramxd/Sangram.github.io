@@ -1,0 +1,13 @@
+{
+  "title": "Generative Trajectory Aggregation for Imitation Learning (CarRacing-v2)",
+  "date": "Oct 2025",
+  "tags": ["reinforcement-learning", "imitation-learning"],
+  "featured": false,
+  "order": 6,
+  "summary": "A diffusion-based alternative to DAgger that replaces live expert queries with a generative teacher, for robust long-horizon driving.",
+  "bullets": [
+    "Co-developed a diffusion-based alternative to DAgger that replaces online expert queries with a generative teacher trained on offline PPO demonstrations.",
+    "Built the end-to-end pipeline — trajectory diffusion modeling, synthetic corrective action generation, and CNN student policy training — for robust visuomotor control.",
+    "Achieved 794.4 mean episodic return across 20 evaluation episodes, outperforming standard behavior cloning on long-horizon driving."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "org": "Computational Engineering & Robotics Lab (CERLAB), Carnegie Mellon University",
+  "role": "Graduate Researcher",
+  "advisor": "Prof. Kenji Shimada",
+  "sponsor": "MiSUMi Corp.",
+  "start": "May 2025",
+  "end": "Present",
+  "order": 2,
+  "bullets": [
+    "Formulated engineering-drawing understanding as a joint semantic and structural learning problem, predicting progressive graph cuts that hierarchically partition drawings into connected functional components.",
+    "Integrated node semantic predictions with learned geometric embeddings to improve semantics-consistent structural decomposition of engineering shape graphs; benchmarked GNN variants including GraphSAGE and GATv2.",
+    "Built end-to-end pipelines for graph-based CAD understanding spanning preprocessing, feature extraction, model training, evaluation, and custom debugging and performance-analysis tooling on a production engineering-drawing corpus."
+  ]
+}

@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const publications = (await getCollection("publications")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Publications" description="Conference presentations and publications of Sangram Kumar Sahoo.">
+  <section class="section wrap">
+    <p class="eyebrow">Publications</p>
+    <h1>Presentations & publications</h1>
+  </section>
+
+  <section class="section wrap">
+    <ol class="pub-list">
+      {publications.map((pub, i) => (
+        <li class="panel">
+          <div class="meta-row"><span>{String(i + 1).padStart(2, "0")}</span><span>{pub.data.date}</span></div>
+          <h2>{pub.data.title}</h2>
+          <p class="authors">{pub.data.authors}</p>
+          <p class="venue">{pub.data.venue}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .pub-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+  .pub-list h2 { font-size: 1.05rem; }
+  .authors { color: var(--ink-soft); }
+  .venue { font-style: italic; color: var(--ink-faint); font-size: 0.92rem; }
+</style>

@@ -1,0 +1,13 @@
+{
+  "title": "Deep Reinforcement Learning Algorithm Suite",
+  "date": "2025 – 2026",
+  "tags": ["reinforcement-learning"],
+  "featured": true,
+  "order": 5,
+  "summary": "A from-scratch implementation and multi-seed benchmark of model-free, model-based, and offline RL methods.",
+  "bullets": [
+    "Implemented from scratch and benchmarked a broad span of RL methods: REINFORCE with and without baseline, N-step A2C, DQN and Double DQN, PPO, TD3, and SAC — covering clipped policy objectives, GAE, twin critics, entropy regularization, delayed actor updates, and target-network stabilization.",
+    "Extended into model-based and offline settings with PETS (probabilistic ensemble dynamics, MPC, CEM trajectory optimization) and offline TD3 with behavior regularization and Conservative Q-Learning, analyzing out-of-distribution value overestimation.",
+    "Built transformer-based action-diffusion policies and applied CMA-ES for black-box control, comparing search-based policy learning against gradient-based RL; ran multi-seed evaluation pipelines quantifying variance and return progression across trials."
+  ]
+}

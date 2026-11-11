@@ -1,0 +1,131 @@
+---
+import { profile } from "../data/profile";
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">SKS</span>
+      <span class="brand-name">{profile.name}</span>
+    </a>
+    <div class="bar-right">
+      <span id="clock" class="clock" aria-hidden="true"></span>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="theme-toggle-label">theme</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    gap: 1rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    text-decoration: none;
+    color: var(--ink);
+    min-width: 0;
+  }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.25em 0.4em;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .brand:hover .brand-name { color: var(--ink); }
+
+  .bar-right { display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0; }
+
+  .clock {
+    font-family: var(--font-data);
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--font-data);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 0.4em 0.65em;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById("theme-toggle");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        var root = document.documentElement;
+        var current = root.getAttribute("data-theme");
+        var system = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        var effective = current || system;
+        var next = effective === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        window.dispatchEvent(new CustomEvent("themechange"));
+      });
+    }
+
+    var clock = document.getElementById("clock");
+    if (clock) {
+      function tick() {
+        var d = new Date();
+        var h = d.getHours();
+        var ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12 || 12;
+        var m = String(d.getMinutes()).padStart(2, "0");
+        clock.textContent = h + ":" + m + " " + ampm;
+      }
+      tick();
+      setInterval(tick, 15000);
+    }
+  })();
+</script>

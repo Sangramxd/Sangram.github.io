@@ -1,0 +1,13 @@
+{
+  "title": "Language-Guided Long-Horizon Robotic Manipulation",
+  "date": "Apr 2026",
+  "tags": ["robotics", "llm-agents", "computer-vision"],
+  "featured": true,
+  "order": 1,
+  "summary": "A multi-agent pipeline that turns natural-language goals into multi-step robot actions on a Franka Panda arm, closing the loop between symbolic plans and what the robot actually observes.",
+  "bullets": [
+    "Built a multi-agent pipeline converting natural-language goals into multi-step robot actions through LLM perception, symbolic planning, and vision-language execution on a Franka Panda arm.",
+    "Developed the vision front end with Grounding DINO and RGB-D depth back-projection to generate grounded STRIPS predicates directly from camera observations; sequenced actions with a C++ A* STRIPS planner and executed them with SmolVLA (500M) language-conditioned joint control.",
+    "Orchestrated the full observe–plan–execute–verify cycle in LangGraph with state-verification hooks that gate progression after each action, trigger replanning on failure, and close the loop between symbolic plan and observed world state."
+  ]
+}

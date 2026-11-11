@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const items = await getCollection("news");
+  return items.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+
+<BaseLayout title={item.data.title} description={item.data.summary}>
+  <article class="section wrap prose">
+    <p class="eyebrow">News</p>
+    <h1>{item.data.title}</h1>
+    <div class="meta-row">
+      <span>{item.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+    </div>
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .prose :global(h2) { margin-top: 1.6rem; }
+  .prose :global(p) { max-width: var(--measure); }
+</style>

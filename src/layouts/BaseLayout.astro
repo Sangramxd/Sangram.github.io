@@ -1,0 +1,41 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Dock from "../components/Dock.astro";
+import AsciiField from "../components/AsciiField.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Sangram Kumar Sahoo — robotics, computer vision, and LLM agent research at Carnegie Mellon." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} · Sangram Kumar Sahoo</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored) document.documentElement.setAttribute("data-theme", stored);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <AsciiField />
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <Dock />
+  </body>
+</html>

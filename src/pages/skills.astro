@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout title="Skills" description="Technical skills of Sangram Kumar Sahoo.">
+  <section class="section wrap">
+    <p class="eyebrow">Skills</p>
+    <h1>Technical skills</h1>
+  </section>
+
+  <section class="section wrap">
+    <div class="grid-auto">
+      {profile.skills.map((group) => (
+        <div class="panel">
+          <h2>{group.category}</h2>
+          <div class="tag-row">
+            {group.items.map((item) => <span class="tag">{item}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2 { font-size: 1rem; margin-bottom: 0.8rem; }
+</style>

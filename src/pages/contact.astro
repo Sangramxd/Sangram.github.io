@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout title="Contact" description={`Contact ${profile.name}.`}>
+  <section class="section wrap">
+    <p class="eyebrow">Contact</p>
+    <h1>Get in touch</h1>
+    <p>The fastest way to reach me is email. I'm based in {profile.location}.</p>
+  </section>
+
+  <section class="section wrap">
+    <div class="grid-auto">
+      <div class="panel">
+        <div class="meta-row"><span>Email</span></div>
+        <h2><a href={`mailto:${profile.email}`}>{profile.email}</a></h2>
+      </div>
+      <div class="panel">
+        <div class="meta-row"><span>Phone</span></div>
+        <h2>{profile.phone}</h2>
+      </div>
+      <div class="panel">
+        <div class="meta-row"><span>LinkedIn</span></div>
+        <h2><a href={profile.links.linkedin} target="_blank" rel="noreferrer">sangramksahoo</a></h2>
+      </div>
+      <div class="panel">
+        <div class="meta-row"><span>GitHub</span></div>
+        <h2><a href={profile.links.github} target="_blank" rel="noreferrer">Sangramxd</a></h2>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h2 { font-size: 1.1rem; word-break: break-word; }
+</style>

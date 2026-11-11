@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+import { getCollection } from "astro:content";
+
+const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
+const research = experience.filter((e) => e.data.org.includes("FORGE") || e.data.org.includes("CERLAB"));
+---
+
+<BaseLayout title="Research" description="Research interests and research experience of Sangram Kumar Sahoo.">
+  <section class="section wrap">
+    <p class="eyebrow">Research</p>
+    <h1>Research interests</h1>
+    <ul class="interests">
+      {profile.researchInterests.map((r) => <li>{r}</li>)}
+    </ul>
+  </section>
+
+  <section class="section wrap timeline">
+    <p class="eyebrow">Research experience</p>
+    {research.map((job) => (
+      <article class="panel entry">
+        <div class="meta-row">
+          <span>{job.data.start} — {job.data.end}</span>
+          {job.data.advisor && <span>{job.data.advisor}</span>}
+          {job.data.sponsor && <span>Sponsor: {job.data.sponsor}</span>}
+        </div>
+        <h2>{job.data.org}</h2>
+        <ul>
+          {job.data.bullets.map((b: string) => <li>{b}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="section wrap">
+    <p class="eyebrow">Publications</p>
+    <a class="btn" href="/publications/">View publications →</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .interests { max-width: var(--measure); }
+  .timeline { display: flex; flex-direction: column; gap: 1.1rem; }
+</style>

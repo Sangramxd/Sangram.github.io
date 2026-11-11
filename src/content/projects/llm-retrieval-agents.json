@@ -1,0 +1,12 @@
+{
+  "title": "LLM Retrieval & Agent Systems",
+  "date": "Apr 2026",
+  "tags": ["llm-agents"],
+  "featured": false,
+  "order": 3,
+  "summary": "A retrieval-QA system and agent tool-calling server built to compare retrieval strategies and long-running agent memory designs.",
+  "bullets": [
+    "Built a LangChain retrieval-QA system using MiniLM-L6-v2 embeddings with dense passage retrieval over dual encoders and MMR re-ranking; benchmarked RAG-Sequence against RAG-Token.",
+    "Implemented an MCP (Model Context Protocol) server exposing tool endpoints for agent function-calling, and evaluated MemGPT-style memory architectures for long-running agents."
+  ]
+}
