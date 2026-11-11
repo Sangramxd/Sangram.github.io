@@ -8,8 +8,13 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  bodyClass?: string;
 }
-const { title, description = "Sangram Kumar Sahoo — robotics, computer vision, and LLM agent research at Carnegie Mellon." } = Astro.props;
+const {
+  title,
+  description = "Sangram Kumar Sahoo — robotics, computer vision, and LLM agent research at Carnegie Mellon.",
+  bodyClass = "",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -29,7 +34,7 @@ const { title, description = "Sangram Kumar Sahoo — robotics, computer vision,
       })();
     </script>
   </head>
-  <body>
+  <body class={bodyClass}>
     <AsciiField />
     <Header />
     <main>

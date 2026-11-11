@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { profile } from "../data/profile";
 import { getCollection } from "astro:content";
+import { iconRobotArm, iconSpark, iconChatNode, iconLoopArrow, iconAbout, iconFolder, iconDocument, iconMail } from "../data/icons";
 
 const experience = (await getCollection("experience")).sort((a, b) => a.data.order - b.data.order);
 const current = experience.filter((e) => e.data.end === "Present");
@@ -12,37 +13,37 @@ const featured = projects.filter((p) => p.data.featured);
 const publications = (await getCollection("publications")).sort((a, b) => a.data.order - b.data.order);
 
 const projectIcons = [
-  { slug: "language-guided-manipulation", mono: "LG", color: "var(--c-robotics)", top: "9%", left: "10%" },
-  { slug: "weld-inspection", mono: "WI", color: "var(--c-manufacturing)", top: "14%", left: "60%" },
-  { slug: "rag-pharmacovigilance", mono: "RA", color: "var(--c-llm)", top: "7%", left: "81%" },
-  { slug: "deep-rl-suite", mono: "RL", color: "var(--c-rl)", top: "36%", left: "22%" },
+  { slug: "language-guided-manipulation", icon: iconRobotArm, top: "9%", left: "10%" },
+  { slug: "weld-inspection", icon: iconSpark, top: "14%", left: "60%" },
+  { slug: "rag-pharmacovigilance", icon: iconChatNode, top: "7%", left: "81%" },
+  { slug: "deep-rl-suite", icon: iconLoopArrow, top: "36%", left: "22%" },
 ]
   .map((icon) => {
     const project = featured.find((p) => p.id === icon.slug);
-    return project ? { ...icon, label: project.data.title, href: "/work-showcase/" } : null;
+    return project ? { ...icon, label: project.data.title, href: "/work-showcase/", kind: "file" as const } : null;
   })
   .filter(Boolean);
 
 const shortcutIcons = [
-  { label: "About", mono: "AB", color: "var(--c-cloud)", href: "/about/", top: "38%", left: "72%" },
-  { label: "All_Projects", mono: "PR", color: "var(--c-robotics)", href: "/projects/", top: "20%", left: "40%" },
-  { label: "Publications", mono: "PB", color: "var(--c-research)", href: "/publications/", top: "50%", left: "48%" },
-  { label: "Contact", mono: "CT", color: "var(--accent)", href: "/contact/", top: "45%", left: "87%" },
+  { label: "About", icon: iconAbout, href: "/about/", top: "38%", left: "72%", kind: "app" as const },
+  { label: "All_Projects", icon: iconFolder, href: "/projects/", top: "20%", left: "40%", kind: "app" as const },
+  { label: "Publications", icon: iconDocument, href: "/publications/", top: "50%", left: "48%", kind: "app" as const },
+  { label: "Contact", icon: iconMail, href: "/contact/", top: "45%", left: "87%", kind: "app" as const },
 ];
 
 const desktopIcons = [...projectIcons, ...shortcutIcons];
 ---
 
-<BaseLayout title="Home">
+<BaseLayout title="Home" bodyClass="home-boot">
 <section class="desktop-hero">
   <img class="desktop-bg" src="/images/hero-trail.jpg" alt="Looking out over Half Dome and the Yosemite high country" />
   <div class="desktop-scrim" aria-hidden="true"></div>
   <p class="desktop-caption">Olmsted Point, Yosemite — mapping terrain is a hobby, not just a research topic</p>
 
   <div class="desktop-icons">
-    {desktopIcons.map((icon) => (
-      <a class="dicon" href={icon!.href} style={`--c: ${icon!.color}; top: ${icon!.top}; left: ${icon!.left};`}>
-        <span class="dicon-glyph">{icon!.mono}</span>
+    {desktopIcons.map((icon, i) => (
+      <a class="dicon" href={icon!.href} style={`--i: ${i}; top: ${icon!.top}; left: ${icon!.left};`}>
+        <span class={`dicon-glyph dicon-glyph--${icon!.kind}`} set:html={icon!.icon} />
         <span class="dicon-label">{icon!.label}</span>
       </a>
     ))}
@@ -171,22 +172,16 @@ const desktopIcons = [...projectIcons, ...shortcutIcons];
     border-radius: 8px;
   }
   .dicon:hover, .dicon:focus-visible { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(2px); }
-  .dicon-glyph {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--c) 55%, rgba(20, 22, 18, 0.65));
-    border: 1px solid color-mix(in srgb, var(--c) 80%, transparent);
-    color: #fff;
-    font-family: var(--font-data);
-    font-weight: 700;
-    font-size: 0.78rem;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.5);
+  .dicon-glyph { width: 46px; height: 46px; display: block; }
+  .dicon-glyph :global(svg) { display: block; width: 100%; height: 100%; }
+  .dicon-glyph--file {
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 13px;
+    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.55);
   }
+  .dicon-glyph--file :global(svg) { border-radius: 9px; }
+  .dicon-glyph--app { filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.45)); }
   .dicon-label {
     font-family: var(--font-data);
     font-size: 0.64rem;
